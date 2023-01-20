@@ -1,0 +1,2 @@
+# Cronkit - GPT News Aggregator
+
