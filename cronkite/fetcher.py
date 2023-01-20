@@ -150,4 +150,4 @@ def fetch_article(url: str, date: date = None, graceful_fetch_fail: bool = True)
         "Successfully cleaned article", {"title": title, "clean_length": len(clean_text), "original_length": len(text)}
     )
 
-    return {"title": title, "content": clean_text, "date": date}
+    return {"title": title, "content": clean_text, "date": date, "url": url}
