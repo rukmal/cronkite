@@ -1,0 +1,6 @@
+Title: Microsoft Azure to Add OpenAI's ChatGPT to Cloud Services (MSFT) - Bloomberg
+Date: Tue, 17 Jan 2023 01:00:00 GMT
+URL: https://www.bloomberg.com/news/articles/2023-01-17/microsoft-azure-to-add-chatgpt-to-cloud-services
+Summary:
+• Microsoft Azure (MSFT) to add OpenAI's ChatGPT to cloud services, enabling customers to use OpenAI products in their own applications running in the cloud. 
+• Microsoft is also in talks for further investment in OpenAI.

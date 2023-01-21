@@ -1,0 +1,8 @@
+Title: Binance to let institutions store crypto with cold custody
+Date: Mon, 16 Jan 2023 13:51:12 GMT
+URL: https://cointelegraph.com/news/binance-to-let-institutions-store-crypto-with-cold-custody
+Summary:
+• Binance launches Mirror service for institutional investors to securely store crypto in cold custody
+• Mirror service based on Binance Custody and involves mirroring cold-storage assets through 1:1 collateral held on a Binance account
+• Binance Custody secured cold-wallet insurance in Lithuania to operate an institutional-grade digital asset custody solution
+• Growing trend of self-custody as investors flock away from centralized exchanges

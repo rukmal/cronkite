@@ -1,0 +1,9 @@
+Title: Team Develops Shiba Inu Burn Portal Specifically For Shibarium, Shares How Shibarium Will Burn Shib
+Date: Tue, 17 Jan 2023 06:33:36 GMT
+URL: https://thecryptobasic.com/2023/01/17/team-develops-shiba-inu-burn-portal-specifically-for-shibarium-shares-how-shibarium-will-burn-shib/
+Summary:
+• Team develops Shiba Inu burn portal specifically for Shibarium
+• Implicit burn amount for SHIB token deducted from base gas fee of each transaction on Shibarium
+• Renewed burn portal to implement burns for each transaction on Shibarium
+• Unspecified amount of SHIB tokens to be incinerated through Shiba Inu renewed burn portal
+• Move to reduce SHIB's initial supply of 1 quadrillion

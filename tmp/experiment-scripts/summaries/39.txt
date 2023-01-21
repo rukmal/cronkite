@@ -1,0 +1,9 @@
+Title: Norton LifeLock says thousands of customer accounts breached • TechCrunch
+Date: Sun, 15 Jan 2023 19:22:01 GMT
+URL: https://techcrunch.com/2023/01/15/norton-lifelock-password-manager-data/
+Summary:
+• Norton LifeLock reports thousands of customer accounts breached 
+• Credential stuffing attack likely culprit 
+• Attackers may have accessed first name, last name, phone number, and mailing address 
+• 6,450 customers notified 
+• Password managers still recommended with appropriate precautions and protections in place

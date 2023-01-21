@@ -1,0 +1,8 @@
+Title: Bloomberg - Are you a robot?
+Date: Mon, 16 Jan 2023 22:30:07 GMT
+URL: https://www.bloomberg.com/tosv2.html?vid=&uuid=d093e2cb-9646-11ed-bcc4-4f737541435a&url=L25ld3MvYXJ0aWNsZXMvMjAyMy0wMS0xNi9hc2lhLXN0b2Nrcy10by1vcGVuLW1peGVkLWFzLW5ldy15ZWFyLXJhbGx5LXN0YWxscy1tYXJrZXRzLXdyYXA=
+Summary:
+
+• Robot detection
+• JavaScript & Cookie support
+• Contact support team
