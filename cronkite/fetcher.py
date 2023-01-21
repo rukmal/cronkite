@@ -55,7 +55,7 @@ def fetch_feed(
 
     # Build RSS feed URL
     if topic != "":
-        rss_feed_url = f"https://news.google.com/rss/topics/{topic}"
+        rss_feed_url = f"https://news.google.com/rss/headlines/section/topic/{topic}"
     else:
         # Query, not topic
         # rss_feed_url = f"https://news.google.com/{query}"
@@ -75,7 +75,7 @@ def fetch_feed(
         rss_feed = requests.get(rss_feed_url).text
         soup = BeautifulSoup(rss_feed, features="xml")
         items = soup.find_all("item")
-        logging.deug("Attempting to extract articles from RSS feed", {"url": rss_feed_url, "count": len(items)})
+        logging.debug("Attempting to extract articles from RSS feed", {"url": rss_feed_url, "count": len(items)})
     except Exception:
         logging.error("Error encountered fetching RSS feed", {"url": rss_feed_url})
         raise

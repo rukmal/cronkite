@@ -44,7 +44,7 @@ encoder = tiktoken.get_encoding(OPENAI_TOKENIZER_NAME)
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=CHUNK_TOKEN_SIZE, chunk_overlap=CHUNK_TOKEN_OVERLAP, length_function=lambda x: len(encoder.encode(x))
 )
-initial_prompt = PromptTemplate(template=INITIAL_PROMPT_TEMPLATE, input_variables=["text"])
+initial_prompt = PromptTemplate(template=INITIAL_PROMPT_TEMPLATE, input_variables=["text", "title"])
 refine_prompt = PromptTemplate(template=REFINE_RPOMPT_TEMPLATE, input_variables=["existing_answer", "text"])
 
 
@@ -89,7 +89,7 @@ def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
         refine_prompt=refine_prompt,
     )
     summary_resp = summarize_chain(
-        inputs={"input_documents": split_langchain_docs},
+        inputs={"input_documents": split_langchain_docs, "title": article_data["title"]},
         return_only_outputs=False,
     )
 

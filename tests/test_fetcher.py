@@ -1,5 +1,6 @@
 from cronkite import fetcher
 from datetime import date
+import pytest
 
 
 class TestFetchArticle:
@@ -14,17 +15,18 @@ class TestFetchArticle:
 
 class TestFetchFeed:
     def test_no_topic_no_query(self):
-        assert fetcher.fetch_feed(from_date=None, to_date=None, query="", topic="") is ValueError
+        with pytest.raises(ValueError):
+            fetcher.fetch_feed(from_date=None, to_date=None, query="", topic="")
 
     def test_both_topic_query(self):
-        assert fetcher.fetch_feed(from_date=None, to_date=None, query="test", topic="test") is ValueError
+        with pytest.raises(ValueError):
+            fetcher.fetch_feed(from_date=None, to_date=None, query="test", topic="test")
 
     def test_good_topic_fetch(self):
-        out = fetcher.fetch_feed(from_date=date(2023, 1, 1), to_date=date(2023, 1, 15), topic="BUSINESS")
+        out = fetcher.fetch_feed(topic="BUSINESS")
         assert type(out) is list
         assert len(out) > 0
 
     def test_good_query_fetch(self):
-        out = fetcher.fetch_feed(from_date=date(2023, 1, 1), to_date=date(2023, 1, 16), query="sri lanka economy")
-        assert type(out) is list
-        assert len(out) > 0
+        with pytest.raises(NotImplementedError):
+            fetcher.fetch_feed(query="sri lanka economy")
