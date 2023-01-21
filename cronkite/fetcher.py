@@ -88,6 +88,7 @@ def fetch_feed(
                 {
                     "url": item.find("link").text,
                     "date": item.find("pubDate").text,  # TODO: Parse this into a date/datetime
+                    "title": item.find("title").text.strip(),
                 }
             )
         except Exception:
@@ -97,6 +98,7 @@ def fetch_feed(
             else:
                 logging.debug("No article found", {"feed_url": rss_feed_url, "idx": idx})
                 raise
+        logging.debug("Successfully grabbed article", {"title": item.find("")})
 
     logging.debug(
         "Successfully extracted articles", {"feed_url": rss_feed_url, "time": time.time() - tic, "n": len(feed_items)}
@@ -104,7 +106,7 @@ def fetch_feed(
     return feed_items
 
 
-def fetch_article(url: str, date: date = None, graceful_fetch_fail: bool = True) -> Union[None, dict]:
+def fetch_article(url: str, title: str, date: date = None, graceful_fetch_fail: bool = True) -> Union[None, dict]:
     """Fetches an article from the web and returns a dictionary containing the article's title and content.
 
     Arguments:
@@ -150,4 +152,4 @@ def fetch_article(url: str, date: date = None, graceful_fetch_fail: bool = True)
         "Successfully cleaned article", {"title": title, "clean_length": len(clean_text), "original_length": len(text)}
     )
 
-    return {"title": title, "content": clean_text, "date": date, "url": url}
+    return {"title": title, "content": clean_text, "date": date, "url": url, "title": title}
