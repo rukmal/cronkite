@@ -55,7 +55,7 @@ def fetch_feed(
 
     # Build RSS feed URL
     if topic != "":
-        rss_feed_url = f"https://news.google.com/rss/topics/{topic}"
+        rss_feed_url = f"https://news.google.com/rss/headlines/section/topic/{topic}"
     else:
         # Query, not topic
         # rss_feed_url = f"https://news.google.com/{query}"
@@ -75,7 +75,7 @@ def fetch_feed(
         rss_feed = requests.get(rss_feed_url).text
         soup = BeautifulSoup(rss_feed, features="xml")
         items = soup.find_all("item")
-        logging.deug("Attempting to extract articles from RSS feed", {"url": rss_feed_url, "count": len(items)})
+        logging.debug("Attempting to extract articles from RSS feed", {"url": rss_feed_url, "count": len(items)})
     except Exception:
         logging.error("Error encountered fetching RSS feed", {"url": rss_feed_url})
         raise
@@ -88,6 +88,7 @@ def fetch_feed(
                 {
                     "url": item.find("link").text,
                     "date": item.find("pubDate").text,  # TODO: Parse this into a date/datetime
+                    "title": item.find("title").text.strip(),
                 }
             )
         except Exception:
@@ -97,6 +98,7 @@ def fetch_feed(
             else:
                 logging.debug("No article found", {"feed_url": rss_feed_url, "idx": idx})
                 raise
+        logging.debug("Successfully grabbed article", {"title": item.find("")})
 
     logging.debug(
         "Successfully extracted articles", {"feed_url": rss_feed_url, "time": time.time() - tic, "n": len(feed_items)}
@@ -104,7 +106,7 @@ def fetch_feed(
     return feed_items
 
 
-def fetch_article(url: str, date: date = None, graceful_fetch_fail: bool = True) -> Union[None, dict]:
+def fetch_article(url: str, title: str, date: date = None, graceful_fetch_fail: bool = True) -> Union[None, dict]:
     """Fetches an article from the web and returns a dictionary containing the article's title and content.
 
     Arguments:
@@ -150,4 +152,4 @@ def fetch_article(url: str, date: date = None, graceful_fetch_fail: bool = True)
         "Successfully cleaned article", {"title": title, "clean_length": len(clean_text), "original_length": len(text)}
     )
 
-    return {"title": title, "content": clean_text, "date": date, "url": url}
+    return {"title": title, "content": clean_text, "date": date, "url": url, "title": title}

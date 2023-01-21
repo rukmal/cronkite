@@ -12,8 +12,8 @@ import time
 OPENAI_MODEL_NAME: str = "text-curie-001"
 OPENAI_TOKENIZER_NAME: str = "cl100k_base"
 OPENAI_MODEL_TEMPERATURE: float = 0.0  # 0 is fully deterministic, 1 is most random
-OPENAI_MODEL_MAX_TOKENS: int = -1  # langchain automatically sets to max for OPENAI_MODEL_NAME
-CHUNK_TOKEN_SIZE: int = 2000
+OPENAI_MODEL_MAX_TOKENS: int = 500  # langchain automatically sets to max for OPENAI_MODEL_NAME
+CHUNK_TOKEN_SIZE: int = 800
 CHUNK_TOKEN_OVERLAP: int = 100
 INITIAL_PROMPT_TEMPLATE: str = (
     "Write an extremely concise bullet point summary of the following article, in bullet points."
@@ -23,19 +23,20 @@ INITIAL_PROMPT_TEMPLATE: str = (
     "The title of the article is `{title}`"
     "Article:"
     "`{text}`"
-    "CONCISE_ARTICLE:"
+    "CONCISE ARTICLE:"
 )
 REFINE_RPOMPT_TEMPLATE: str = (
     "Your job is to produce a very concise bullet point final summary."
     "Include the most important information from the article."
     "We have provided an existing concise summary up to a certain point:"
     "`{existing_answer}`"
-    "We have the opportunity to refine the concise summary (only if needed) with soe more context below."
+    "We have the opportunity to refine the concise summary (only if needed) with some more context below."
     "It may or may not be relevant."
     "`{text}`"
     "Given the new context, refine the original summary in a concise manner."
     "If the context isn't helpful, return the original concise summary."
     "Concisely summarize just the main points of the article in bullet points, and don't include any of the context or other irrelevant information.\n"
+    "CONCISE ARTICLE SUMMARY:"
 )
 
 
@@ -44,7 +45,7 @@ encoder = tiktoken.get_encoding(OPENAI_TOKENIZER_NAME)
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=CHUNK_TOKEN_SIZE, chunk_overlap=CHUNK_TOKEN_OVERLAP, length_function=lambda x: len(encoder.encode(x))
 )
-initial_prompt = PromptTemplate(template=INITIAL_PROMPT_TEMPLATE, input_variables=["text"])
+initial_prompt = PromptTemplate(template=INITIAL_PROMPT_TEMPLATE, input_variables=["text", "title"])
 refine_prompt = PromptTemplate(template=REFINE_RPOMPT_TEMPLATE, input_variables=["existing_answer", "text"])
 
 
@@ -59,6 +60,9 @@ def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
         dict -- Patched article_data with the summary under the bullet_point_summary key.
     """
     tic = time.time()
+
+    if article_data is None:
+        return None
 
     logging.debug(
         "Summarizing article",
@@ -89,7 +93,7 @@ def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
         refine_prompt=refine_prompt,
     )
     summary_resp = summarize_chain(
-        inputs={"input_documents": split_langchain_docs},
+        inputs={"input_documents": split_langchain_docs, "title": article_data["title"]},
         return_only_outputs=False,
     )
 
