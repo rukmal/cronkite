@@ -50,7 +50,7 @@ refine_prompt = PromptTemplate(template=REFINE_RPOMPT_TEMPLATE, input_variables=
 
 
 def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
-    """Create a multi-bullet point summary of an article, using the reifne method with the OPENAI_MODEL_NAME model.
+    """Create a multi-bullet point summary of an article, using the refine method with the OPENAI_MODEL_NAME model.
 
     Arguments:
         article_data {dict} -- Article data dictionary. Needs keys url and content.
@@ -107,4 +107,7 @@ def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
             "time": time.time() - tic,
         },
     )
+    print(article_data)
     return article_data
+
+def main():

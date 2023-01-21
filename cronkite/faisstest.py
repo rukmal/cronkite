@@ -7,44 +7,34 @@ import faiss
 from io import StringIO
 import pandas as pd
 from langchain.embeddings import OpenAIEmbeddings
-from articles import Article
 
-# we want to be able to grab the most similar n articles from the embedded set of files from a hallucinated text file
-# embeddings is a list, hall_prompt is 
-def get_most_similar(raw_texts, hall_prompt, k):
-    print(hall_prompt)
+# articles is a list of article dictionaries, hall_prompt is a string, k is the top answers
+def get_most_similar(articles, hall_prompt, k):
+    raw_texts = map(lambda x:x['content'], articles)
     embeddings = OpenAIEmbeddings()
     query_embedding = np.asarray([embeddings.embed_query(hall_prompt)])
     doc_embeddings = np.asarray(embeddings.embed_documents(raw_texts))
     d = doc_embeddings.shape[1]
-    print("doc embeddings shape", d)
     index = faiss.IndexFlatL2(d)
-    print("is it trained", index.is_trained)
     index.add(doc_embeddings)
-    print("index.ntotal", index.ntotal)
     D, I = index.search(query_embedding, k)  # search
-    
+    print("I", I)
     answers = []
-    for k in I:
-        answers.append(raw_texts[int(k)])
+    for k in I[0]:
+        answers.append(articles[int(k)])
     return answers
 
 def main():
     # remove duplicates and NaN
     # sentences = [word for word in list(set(data)) if type(word) is str]
-    article1 = Article("", "", "", "someone with a football")
-    article2 = Article("", "", "", "someone not with a football")
-    article3 = Article("", "", "", "someone with a soccer")
-
+    article1 = {"title": "", "url": "", "date": "", "content": "someone with a football", "summary": ""}
+    article2 = {"title": "", "url": "", "date": "", "content": "someone not with a football", "summary": ""}
+    article3 = {"title": "", "url": "", "date": "", "content": "someone not with a soccer", "summary": ""}
     articles = [article1, article2, article3]
-    raw_texts = []
-    for i in articles:
-        raw_texts.append(i.get_content())
     hall_prompt = "Someone sprints with a football"
-    print(raw_texts)
-    text_results = get_most_similar(raw_texts, hall_prompt, 1)
+    k = 2
+    text_results = get_most_similar(articles, hall_prompt, k)
     print(text_results)
-    # create sentence embeddings
    
 if __name__ == "__main__":
     main()
