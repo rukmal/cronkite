@@ -14,9 +14,9 @@ from langchain.chains.question_answering import load_qa_chain
 import os
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 # Summarization parameters
-OPENAI_MODEL_NAME: str = "text-curie-001"
+OPENAI_MODEL_NAME: str = "text-davinci-003"
 OPENAI_TOKENIZER_NAME: str = "cl100k_base"
-OPENAI_MODEL_TEMPERATURE: float = 0.0  # 0 is fully deterministic, 1 is most random
+OPENAI_MODEL_TEMPERATURE: float = 0.3  # 0 is fully deterministic, 1 is most random
 OPENAI_MODEL_MAX_TOKENS: int = 500  # langchain automatically sets to max for OPENAI_MODEL_NAME
 ANSWER_PROMPT_TEMPLATE: str = (
     "Answer a question by using information from a text."
@@ -36,7 +36,7 @@ encoder = tiktoken.get_encoding(OPENAI_TOKENIZER_NAME)
 
 answer_prompt = PromptTemplate(template=ANSWER_PROMPT_TEMPLATE, input_variables=["question", "text"])
 
-def answer_follow_up_question(question: str, references: dict) -> str:
+def answer_follow_up_question(question: str, references) -> str:
     """
     Arguments:
         question {str} -- Question

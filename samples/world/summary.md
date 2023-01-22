@@ -38,4 +38,3 @@
 - Russia-Ukraine war ongoing for 332 days, Russia claims to have captured village near Bakhmut, Germany declines to supply Kyiv with tanks, EU countries seeking approval for €500m military aid, US to impose additional sanctions against Wagner Group.
 - Ukraine's Intelligence Directorate believes Russia is conducting an informational and psychological operation to create tension and distract from the war in Syria, in response to Ukraine's military buildup.
 - Illegal West Bank outpost evacuated on orders of Defense Minister Gallant, in defiance of Religious Zionism leader Smotrich, with support from PM Netanyahu.
-- US maintains policy of strategic ambiguity

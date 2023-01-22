@@ -1,6 +1,6 @@
-import followup_question
-import hall_prompt
-import faisstest
+from . import followup_question
+from . import hall_prompt
+from . import faisstest
 import os
 openai_api_key = os.environ.get("OPENAI_API_KEY")
 

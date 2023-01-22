@@ -21,8 +21,12 @@ def get_most_similar(articles, hall_prompt, k):
     index.add(doc_embeddings)
     D, I = index.search(query_embedding, k)  # search
     answers = []
+    print(f"LENGTH: {len(I[0])}")
     for k in I[0]:
         answers.append(articles[int(k)])
+
+    print(f"ANSWERS: {answers}")
+
     return answers
 
 

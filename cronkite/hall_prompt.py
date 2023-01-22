@@ -50,6 +50,7 @@ def create_hallucination(summary: str, question:str) -> str:
         temperature=OPENAI_MODEL_TEMPERATURE,
         max_tokens=OPENAI_MODEL_MAX_TOKENS,
         openai_api_key=openai_api_key,
+        batch_size=1
     )
     
     answer_chain = LLMChain(llm=llm, prompt=hallucination_prompt)
