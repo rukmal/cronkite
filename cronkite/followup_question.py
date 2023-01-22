@@ -8,7 +8,7 @@ import logging
 import tiktoken
 import time
 import os
-from langchain.chains.qa_with_sources import load_qa_with_sources_chain
+# from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 import os
@@ -28,7 +28,6 @@ ANSWER_PROMPT_TEMPLATE: str = (
     "If the answer cannot be found in the text, just say that you don't know. Don't try to make up an answer or use other sources of information."
     "Format your answer in long and complete sentences. Do not include fragments."
     "The text is '{text}'"
-    # "The sources are '{source}'"
 )
 
 # Summarization helpers
@@ -36,7 +35,7 @@ encoder = tiktoken.get_encoding(OPENAI_TOKENIZER_NAME)
 
 answer_prompt = PromptTemplate(template=ANSWER_PROMPT_TEMPLATE, input_variables=["question", "text"])
 
-def answer_follow_up_question(question: str, references: dict) -> str:
+def answer_follow_up_question(question: str, references: str) -> str:
     """
     Arguments:
         question {str} -- Question
@@ -52,13 +51,10 @@ def answer_follow_up_question(question: str, references: dict) -> str:
         max_tokens=OPENAI_MODEL_MAX_TOKENS,
         openai_api_key=openai_api_key,
     )
-    text1 = [Document(page_content=i['summary']) for i in references]
-    sources =[i['title'] for i in references]
-    # text1 = [Document(page_content=i['summary']) for i in references]
-    # Creating langchain summarize chain
-    # chain = load_qa_with_sources_chain(llm, chain_type="stuff")
+    text1 = [Document(page_content=i) for i in references]
+    # titles =[i['title'] for i in references]
     chain = load_qa_chain(llm, chain_type="stuff")
-    answer = chain.run(input_documents=text1,question=question)
+    answer = chain.run(input_documents=text1,question=question,return_only_outputs=True)
     return answer
 # TODO make the references into single sentences, make k larger
 

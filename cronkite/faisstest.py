@@ -8,11 +8,14 @@ from io import StringIO
 import pandas as pd
 import os
 from langchain.embeddings import OpenAIEmbeddings
-
+import re
 # articles is a list of article dictionaries, hall_prompt is a string, k is the top answers
 def get_most_similar(articles, hall_prompt, k):
 
-    raw_texts = map(lambda x: x["content"], articles)
+    new_raw_texts = map(lambda x: x["content"], articles)
+    raw_texts = []
+    for i in new_raw_texts:
+        raw_texts = raw_texts+re.split(r"\.\s*",i)
     embeddings = OpenAIEmbeddings()
     query_embedding = np.asarray([embeddings.embed_query(hall_prompt)])
     doc_embeddings = np.asarray(embeddings.embed_documents(raw_texts))
@@ -22,7 +25,7 @@ def get_most_similar(articles, hall_prompt, k):
     D, I = index.search(query_embedding, k)  # search
     answers = []
     for k in I[0]:
-        answers.append(articles[int(k)])
+        answers.append(raw_texts[int(k)])
     return answers
 
 
@@ -36,7 +39,6 @@ def main():
     hall_prompt = "Someone sprints with a football"
     k = 2
     text_results = get_most_similar(articles, hall_prompt, k)
-    print(text_results)
 
 
 if __name__ == "__main__":
