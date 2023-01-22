@@ -6,12 +6,13 @@ import numpy as np
 import faiss
 from io import StringIO
 import pandas as pd
+import os
 from langchain.embeddings import OpenAIEmbeddings
 
 # articles is a list of article dictionaries, hall_prompt is a string, k is the top answers
 def get_most_similar(articles, hall_prompt, k):
     raw_texts = map(lambda x:x['content'], articles)
-    embeddings = OpenAIEmbeddings()
+    embeddings = OpenAIEmbeddings(os.environ.get("OPENAI_API_KEY"))
     query_embedding = np.asarray([embeddings.embed_query(hall_prompt)])
     doc_embeddings = np.asarray(embeddings.embed_documents(raw_texts))
     d = doc_embeddings.shape[1]
