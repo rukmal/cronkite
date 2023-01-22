@@ -115,7 +115,7 @@ def executive_summary_map_reduce(articles_data: List[Dict[str, object]], openai_
 
     reduce_prompt_template = """You are a professional news reporter. Your job is to create a bullet point executive summary of the news.
     You have the opportunity to refine the concise summary (only if needed) with some more context from an additional article summary below. It may or may not be relevant. Ignore any articles about subscription offers, and not being able to access the website due to a paywall.
-    Make the titles are high-level as possible. Titles like "Economy", "International Relations", and "Technology" are good.
+    Make the titles are high-level as possible. Titles like "Economy", "International Relations", and "Technology" are good. Come up with more relevant high-level titles.
     The structure should be:
     ```
     # <title 1>
@@ -126,7 +126,7 @@ def executive_summary_map_reduce(articles_data: List[Dict[str, object]], openai_
     - <bullet point 1>
     - <bullet point 2>
     ```
-    Article Summary: `{text}`
+    Article Summary: {text}
     Given the new content, refine the existing executive summary. If the new content isn't helpful, return the original executive summary.
     BULLET POINT EXECUTIVE SUMMARY WIT HTITLES:"""
 
