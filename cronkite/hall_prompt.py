@@ -34,7 +34,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 hallucination_prompt = PromptTemplate(template=HALLUCINATION_PROMPT_TEMPLATE, input_variables=["summary", "question"])
 
-def multiple_bullet_summary(summary: str, question:str, openai_api_key: str) -> str:
+def create_hallucination(summary: str, question:str, openai_api_key: str) -> str:
     """Returns the answer
 
     Arguments:
@@ -64,7 +64,7 @@ def main():
             • Nasdaq Composite up 5.9%, S&P 500 up 4.2%, Dow up 3.5%\
             • China's December retail sales beat estimates, industrial output up 1.3%, economy expanded 2.9% in Q4"
     question = "What happened to European Markets?"
-    answer = multiple_bullet_summary(summary, question, openai_api_key)
+    answer = create_hallucination(summary, question, openai_api_key)
     print(answer)
 
 if __name__ == "__main__":

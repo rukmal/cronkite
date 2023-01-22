@@ -8,6 +8,7 @@ import tiktoken
 import time
 
 
+
 # Summarization parameters
 OPENAI_MODEL_NAME: str = "text-curie-001"
 OPENAI_TOKENIZER_NAME: str = "cl100k_base"
