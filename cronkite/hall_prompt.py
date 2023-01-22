@@ -19,10 +19,13 @@ CHUNK_TOKEN_SIZE: int = 800
 CHUNK_TOKEN_OVERLAP: int = 100
 
 HALLUCINATION_PROMPT_TEMPLATE: str = (
-    "Your job is to answer the follow up question."
+    "You are a world class journalist."
+    "Your job is to answer the following question."
     "'{summary}'"
-    "The context for this follow up question is provided in this summary."
+    "The context for this follow up question is provided in this summary of your previous speech."
     "`{question}`"
+    "Do not include irrelevant information."
+    "Format your answer in complete sentences. Do not include fragments."
     "ANSWER:"
 )
 # Summarization helpers
@@ -56,7 +59,14 @@ def multiple_bullet_summary(summary: str, question:str, openai_api_key: str) -> 
     return answer
 
 def main():
-    answer = multiple_bullet_summary("things are happening", "what is happening?", openai_api_key)
+    summary = "• European markets mixed as economic concerns dominate WEF in Davos \
+            • Chinese economic data released overnight, GDP grew 3% in 2022\
+            • Stoxx 600 flat, autos up 0.5%, retail down 0.5%\
+            • Leaders of Spain, Latvia, Lithuania and Poland, CEOs of Unilever, UBS, Allianz, Swiss Re to speak at WEF\
+            • Nasdaq Composite up 5.9%, S&P 500 up 4.2%, Dow up 3.5%\
+            • China's December retail sales beat estimates, industrial output up 1.3%, economy expanded 2.9% in Q4"
+    question = "What happened to European Markets?"
+    answer = multiple_bullet_summary(summary, question, openai_api_key)
     print(answer)
 
 if __name__ == "__main__":
