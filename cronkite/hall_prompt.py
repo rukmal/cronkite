@@ -26,7 +26,6 @@ HALLUCINATION_PROMPT_TEMPLATE: str = (
     "`{question}`"
     "Do not include irrelevant information."
     "Format your answer in complete sentences. Do not include fragments."
-    "ANSWER:"
 )
 # Summarization helpers
 encoder = tiktoken.get_encoding(OPENAI_TOKENIZER_NAME)
@@ -34,7 +33,6 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=CHUNK_TOKEN_SIZE, chunk_overlap=CHUNK_TOKEN_OVERLAP, length_function=lambda x: len(encoder.encode(x))
 )
 hallucination_prompt = PromptTemplate(template=HALLUCINATION_PROMPT_TEMPLATE, input_variables=["summary", "question"])
-
 
 def multiple_bullet_summary(summary: str, question:str, openai_api_key: str) -> str:
     """Returns the answer
