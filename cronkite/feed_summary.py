@@ -68,7 +68,9 @@ def executive_summary(articles_data: List[Dict[str, object]], openai_api_key: st
 
     # Building langchain Documents with each of the summaries
     summary_docs = [
-        Document(page_content="Title: `" + i["title"] + "` Content: `" + i["summary"] + "`") for i in articles_data
+        Document(page_content="Title: `" + i["title"] + "` Content: `" + i["summary"] + "`")
+        for i in articles_data
+        if i is not None
     ]
 
     # Initialize OpenAI LLM with langchain
@@ -103,3 +105,49 @@ def executive_summary(articles_data: List[Dict[str, object]], openai_api_key: st
     )
 
     return newsfeed_summary
+
+
+def executive_summary_map_reduce(articles_data: List[Dict[str, object]], openai_api_key: str) -> Dict[str, object]:
+    map_prompt_template = """Summarize the following news article summary to a single bullet point. Make it shorthand, and as information dense and concise as possible. Include the most relevant and impactful information from the article. It be a short sentence.
+    Article: `{text}`
+    """
+    reduce_prompt_template = """You are a professional news reporter. Your job is to create a bullet point executive summary of the news. You already have a partially-completed list of bullet points, with another news article summary to add to the list. The existing list is: `{existing_answer}`.
+    You have the opportunity to refine the concise summary (only if needed) with some more context from an additional article summary below. It may or may not be relevant. Ignore any articles about subscription offers, and not being able to access the website due to a paywall.
+    Article: `{text}`
+    Given the new content, refine the existing executive summary. If the new content isn't helpful, return the original executive summary.
+    EXECUTIVE SUMMARY:"""
+
+    tic = time.time()
+
+    logging.debug("Summarizing feed of article summaries", {"n": len(articles_data)})
+
+    # Building langchain Documents with each of the summaries
+    summary_docs = [
+        Document(page_content="Title: `" + i["title"] + "` Content: `" + i["summary"] + "`")
+        for i in articles_data
+        if i is not None
+    ]
+
+    # Initialize OpenAI LLM with langchain
+    llm = OpenAI(
+        model_name=OPENAI_MODEL_NAME,
+        temperature=OPENAI_MODEL_TEMPERATURE,
+        max_tokens=OPENAI_MODEL_MAX_TOKENS,
+        openai_api_key=openai_api_key,
+        batch_size=1,
+    )
+
+    # Creating langchain summarize chain
+    summarize_chain = load_summarize_chain(
+        llm=llm,
+        chain_type="map_reduce",
+        return_intermediate_steps=True,
+        map_prompt=PromptTemplate(template=map_prompt_template, input_variables=["text"]),
+        combine_prompt=PromptTemplate(template=reduce_prompt_template, input_variables=["existing_answer", "text"]),
+        verbose=True,
+    )
+
+    # Building news summary
+    llm_result = summarize_chain(inputs={"input_documents": summary_docs}, return_only_outputs=False)
+
+    return llm_result

@@ -61,9 +61,6 @@ def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
     """
     tic = time.time()
 
-    if article_data is None:
-        return None
-
     logging.debug(
         "Summarizing article",
         {
