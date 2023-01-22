@@ -11,8 +11,9 @@ from langchain.embeddings import OpenAIEmbeddings
 
 # articles is a list of article dictionaries, hall_prompt is a string, k is the top answers
 def get_most_similar(articles, hall_prompt, k):
-    raw_texts = map(lambda x:x['content'], articles)
-    embeddings = OpenAIEmbeddings(os.environ.get("OPENAI_API_KEY"))
+
+    raw_texts = map(lambda x: x["content"], articles)
+    embeddings = OpenAIEmbeddings()
     query_embedding = np.asarray([embeddings.embed_query(hall_prompt)])
     doc_embeddings = np.asarray(embeddings.embed_documents(raw_texts))
     d = doc_embeddings.shape[1]
@@ -25,6 +26,7 @@ def get_most_similar(articles, hall_prompt, k):
         answers.append(articles[int(k)])
     return answers
 
+
 def main():
     # remove duplicates and NaN
     # sentences = [word for word in list(set(data)) if type(word) is str]
@@ -36,6 +38,7 @@ def main():
     k = 2
     text_results = get_most_similar(articles, hall_prompt, k)
     print(text_results)
-   
+
+
 if __name__ == "__main__":
     main()
