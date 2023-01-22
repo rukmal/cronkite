@@ -25,7 +25,7 @@ INITIAL_PROMPT_TEMPLATE: str = (
     "`{text}`"
     "CONCISE ARTICLE:"
 )
-REFINE_RPOMPT_TEMPLATE: str = (
+REFINE_PROMPT_TEMPLATE: str = (
     "Your job is to produce a very concise bullet point final summary."
     "Include the most important information from the article."
     "We have provided an existing concise summary up to a certain point:"
@@ -46,7 +46,7 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=CHUNK_TOKEN_SIZE, chunk_overlap=CHUNK_TOKEN_OVERLAP, length_function=lambda x: len(encoder.encode(x))
 )
 initial_prompt = PromptTemplate(template=INITIAL_PROMPT_TEMPLATE, input_variables=["text", "title"])
-refine_prompt = PromptTemplate(template=REFINE_RPOMPT_TEMPLATE, input_variables=["existing_answer", "text"])
+refine_prompt = PromptTemplate(template=REFINE_PROMPT_TEMPLATE, input_variables=["existing_answer", "text"])
 
 
 def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
@@ -106,5 +106,3 @@ def multiple_bullet_summary(article_data: dict, openai_api_key: str) -> dict:
     )
     print(article_data)
     return article_data
-
-def main():
