@@ -124,7 +124,7 @@ def executive_summary_map_reduce(articles_data: List[Dict[str, object]], openai_
 
     # <title 2>
     - <bullet point 1>
-- <bullet point 2>
+    - <bullet point 2>
     ```
     Article Summary: `{text}`
     Given the new content, refine the existing executive summary. If the new content isn't helpful, return the original executive summary.

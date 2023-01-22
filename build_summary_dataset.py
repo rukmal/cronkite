@@ -19,13 +19,13 @@ openai_api_key = os.environ.get("OPENAI_API_KEY")
 feed_tiems = fetcher.fetch_feed(topic="WORLD")
 feed_content = [fetcher.fetch_article(i["url"], i["title"], i["date"]) for i in feed_tiems]
 feed_content = [i for i in feed_content if i is not None]
+for idx, i in enumerate(feed_content):
+    with open(os.path.join(target_directory, "articles", str(idx) + ".json"), "w") as f:
+        f.write(json.dumps(i))
 article_summaries = [
     article_summary.multiple_bullet_summary(article_data=i, openai_api_key=openai_api_key) for i in feed_content
 ]
 
-for idx, i in enumerate(feed_content):
-    with open(os.path.join(target_directory, "articles", idx + ".json"), "w") as f:
-        f.write(json.dumps(i))
 for idx, i in enumerate(article_summaries):
-    with open(os.path.join(target_directory, "summaries", idx + ".json"), "w") as f:
+    with open(os.path.join(target_directory, "summaries", str(idx) + ".json"), "w") as f:
         f.write(json.dumps(i))
