@@ -19,17 +19,16 @@ OPENAI_TOKENIZER_NAME: str = "cl100k_base"
 OPENAI_MODEL_TEMPERATURE: float = 0.0  # 0 is fully deterministic, 1 is most random
 OPENAI_MODEL_MAX_TOKENS: int = 500  # langchain automatically sets to max for OPENAI_MODEL_NAME
 ANSWER_PROMPT_TEMPLATE: str = (
-    "You are a world class journalist."
     "Answer a question by using information from a text."
     "Use as few words as possible."
     "Only include any information from the text that relates to the question."
     "The question is '{question}'"
     "Ignore any information that appear to be website artifacts."
      "Only include information that is found in the text."
-     "If the answer cannot be found in the text, just say that you don't know. Don't try to make up an answer or use other sources of ifnormation."
-    "Answer in the tone of the text."
+    "If the answer cannot be found in the text, just say that you don't know. Don't try to make up an answer or use other sources of information."
+    "Format your answer in long and complete sentences. Do not include fragments."
     "The text is '{text}'"
-    # "Sources: '{source}'"
+    # "The sources are '{source}'"
 )
 
 # Summarization helpers
