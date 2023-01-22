@@ -20,7 +20,6 @@ def get_most_similar(articles, hall_prompt, k):
     index = faiss.IndexFlatL2(d)
     index.add(doc_embeddings)
     D, I = index.search(query_embedding, k)  # search
-    print("I", I)
     answers = []
     for k in I[0]:
         answers.append(articles[int(k)])
